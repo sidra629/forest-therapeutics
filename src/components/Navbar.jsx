@@ -1,115 +1,170 @@
-import React from "react";
-import { ShoppingBag, Lock, Menu } from "lucide-react";
+import React, { useState } from "react";
 
-export default function Navbar({
-  activeTab,
-  setActiveTab,
-  cartCount,
-  setIsCartOpen,
-  setIsAdminOpen,
-  mobileMenuOpen,
-  setMobileMenuOpen,
-}) {
-  const tabs = ["home", "shop", "gallery", "team", "promos"];
+const serif = { fontFamily: "'Cormorant Garamond', Georgia, serif" };
+
+const links = [
+  ["#seminary", "Seminary"],
+  ["#store", "Store"],
+  ["#booking", "Bookings"],
+  ["#media", "Media"],
+  ["#blog", "Blog"],
+];
+
+function Logo({ className = "h-12 w-12 shrink-0" }) {
+  return (
+    <svg
+      viewBox="0 0 120 120"
+      className={className}
+      role="img"
+      aria-label="Forest Therapeutics logo"
+    >
+      <circle cx="60" cy="60" r="58" fill="#1c1c1e" />
+      <circle
+        cx="60"
+        cy="60"
+        r="55"
+        fill="none"
+        stroke="#b8895a"
+        strokeWidth="2"
+      />
+      <circle
+        cx="60"
+        cy="60"
+        r="51"
+        fill="none"
+        stroke="#b8895a"
+        strokeWidth="0.6"
+        opacity="0.7"
+      />
+      <g stroke="#1c1c1e" strokeWidth="1.6" strokeLinejoin="round">
+        <path d="M60 80C36 86 20 78 14 62C32 60 50 66 60 80Z" fill="#8a6d4f" />
+        <path
+          d="M60 80C84 86 100 78 106 62C88 60 70 66 60 80Z"
+          fill="#8a6d4f"
+        />
+        <path d="M60 80C44 78 32 66 30 46C46 50 56 62 60 80Z" fill="#b8895a" />
+        <path d="M60 80C76 78 88 66 90 46C74 50 64 62 60 80Z" fill="#b8895a" />
+        <path d="M60 30C72 46 72 66 60 82C48 66 48 46 60 30Z" fill="#d4a574" />
+      </g>
+      <g stroke="#e6dcd3" strokeWidth="1.6" strokeLinecap="round">
+        <line x1="38" y1="92" x2="82" y2="92" />
+        <line x1="48" y1="98" x2="72" y2="98" />
+      </g>
+    </svg>
+  );
+}
+
+export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Yahan maine filhal test ke liye Google ka link laga diya hai jo 100% chalega
+  const handleCommunityClick = (e) => {
+    e.preventDefault();
+    setIsOpen(false);
+    window.open("https://www.google.com", "_blank", "noopener,noreferrer");
+  };
 
   return (
-    <nav className="sticky top-0 z-40 bg-[#080808]/90 backdrop-blur-md border-b border-zinc-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        {/* Logo */}
-        <div
-          onClick={() => setActiveTab("home")}
-          className="flex items-center space-x-2 cursor-pointer group"
-        >
-          <div className="w-10 h-10 bg-[#f59e0b] flex items-center justify-center font-black text-black transform -skew-x-12 group-hover:scale-105 transition">
-            OS
-          </div>
-          <span className="text-xl sm:text-2xl font-black tracking-tighter uppercase italic">
-            OUTLAW<span className="text-[#f59e0b]">STUDIO</span>
-          </span>
-        </div>
+    <header className="sticky top-0 z-50 border-b border-[#b8895a]/30 bg-[#1f2530] text-white shadow-lg">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="flex h-20 items-center justify-between gap-4">
+          {/* Logo */}
+          <a
+            href="#"
+            className="flex items-center gap-3 leading-tight text-[#b8895a] no-underline"
+            style={serif}
+          >
+            <Logo className="h-12 w-12 shrink-0" />
+            <span className="whitespace-nowrap text-base tracking-[0.25em] sm:text-xl">
+              FOREST THERAPEUTICS
+            </span>
+          </a>
 
-        {/* Desktop Nav Links */}
-        <div className="hidden md:flex items-center space-x-8 text-sm font-bold uppercase tracking-wider">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`transition-colors py-1 relative ${
-                activeTab === tab
-                  ? "text-[#f59e0b]"
-                  : "text-zinc-400 hover:text-white"
-              }`}
+          {/* Desktop links */}
+          <nav
+            className="hidden items-center gap-6 text-[15px] uppercase tracking-[0.15em] lg:flex"
+            style={serif}
+          >
+            {links.map(([href, label]) => (
+              <a
+                key={href}
+                href={href}
+                className="whitespace-nowrap text-gray-200 no-underline transition hover:text-[#b8895a]"
+              >
+                {label}
+              </a>
+            ))}
+            <a
+              href="https://www.google.com"
+              onClick={handleCommunityClick}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative z-10 cursor-pointer whitespace-nowrap rounded border border-[#b8895a] px-4 py-2 font-semibold text-[#b8895a] no-underline transition hover:bg-[#b8895a] hover:text-[#1f2530]"
             >
-              {tab === "promos" ? "Offers & Deals" : tab}
-              {activeTab === tab && (
-                <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#f59e0b]" />
+              WithMe Community
+            </a>
+          </nav>
+
+          {/* Mobile menu button */}
+          <button
+            type="button"
+            onClick={() => setIsOpen(!isOpen)}
+            className="cursor-pointer text-white hover:text-[#b8895a] focus:outline-none lg:hidden"
+            aria-label="Toggle menu"
+          >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              {isOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               )}
-            </button>
-          ))}
-        </div>
-
-        {/* Actions & Cart */}
-        <div className="flex items-center space-x-4">
-          <button
-            onClick={() => setIsAdminOpen(true)}
-            className="hidden lg:flex items-center space-x-1 text-xs text-zinc-400 hover:text-[#f59e0b] border border-zinc-800 px-3 py-1.5 rounded transition"
-          >
-            <Lock className="w-3.5 h-3.5" />
-            <span>Admin Panel</span>
-          </button>
-
-          <button
-            onClick={() => setIsCartOpen(true)}
-            className="relative p-2 text-white hover:text-[#f59e0b] transition"
-          >
-            <ShoppingBag className="w-6 h-6" />
-            {cartCount > 0 && (
-              <span className="absolute top-0 right-0 bg-[#f59e0b] text-black text-xs font-black rounded-full w-5 h-5 flex items-center justify-center">
-                {cartCount}
-              </span>
-            )}
-          </button>
-
-          {/* Mobile Menu Toggle Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-zinc-400 hover:text-white"
-          >
-            <Menu className="w-6 h-6" />
+            </svg>
           </button>
         </div>
       </div>
 
-      {/* Mobile Nav Menu Drawer */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-zinc-950 border-b border-zinc-800 px-4 py-4 space-y-3">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => {
-                setActiveTab(tab);
-                setMobileMenuOpen(false);
-              }}
-              className={`block w-full text-left uppercase font-bold py-2 px-3 rounded ${
-                activeTab === tab
-                  ? "bg-[#f59e0b] text-black"
-                  : "text-zinc-300 hover:bg-zinc-900"
-              }`}
+      {/* Mobile menu dropdown */}
+      {isOpen && (
+        <div
+          className="space-y-2 border-t border-white/10 bg-[#1f2530] px-4 pb-5 pt-3 text-base uppercase tracking-widest lg:hidden"
+          style={serif}
+        >
+          {links.map(([href, label]) => (
+            <a
+              key={href}
+              href={href}
+              onClick={() => setIsOpen(false)}
+              className="block py-2 text-gray-200 no-underline hover:text-[#b8895a]"
             >
-              {tab}
-            </button>
+              {label}
+            </a>
           ))}
-          <button
-            onClick={() => {
-              setIsAdminOpen(true);
-              setMobileMenuOpen(false);
-            }}
-            className="block w-full text-left uppercase text-xs font-bold py-2 px-3 text-[#f59e0b]"
+          <a
+            href="https://www.google.com"
+            onClick={handleCommunityClick}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 inline-block cursor-pointer rounded border border-[#b8895a] px-4 py-2 font-semibold text-[#b8895a] no-underline transition hover:bg-[#b8895a] hover:text-[#1f2530]"
           >
-            + Admin CMS Portal
-          </button>
+            WithMe Community →
+          </a>
         </div>
       )}
-    </nav>
+    </header>
   );
 }

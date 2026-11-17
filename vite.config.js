@@ -1,7 +1,24 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
-
-export default defineConfig({
-  plugins: [react(), tailwindcss()],
-});
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        forest: {
+          800: "#1b3b2b",
+          900: "#11261c",
+        },
+        earth: {
+          sand: "#f8f6f0",
+          clay: "#c85a32",
+          muted: "#e8e4dc",
+        },
+        goldenrod: "#d4af37",
+      },
+      fontFamily: {
+        serif: ["Georgia", "serif"],
+      },
+    },
+  },
+  plugins: [],
+};

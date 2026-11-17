@@ -11,10 +11,39 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
 
+    <!-- Cormorant Garamond font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- Tailwind CSS Script -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              forest: {
+                800: "#1b3b2b",
+                900: "#11261c",
+              },
+              earth: {
+                sand: "#f8f6f0",
+                clay: "#c85a32",
+                muted: "#e8e4dc",
+              },
+              goldenrod: "#d4af37",
+            },
+            fontFamily: {
+              serif: ["Georgia", "serif"],
+            },
+          },
+        },
+      };
+    </script>
 
-    <title>Outlaw Studio</title>
+    <title>Forest Therapeutics</title>
   </head>
   <body>
     <div id="root"></div>
